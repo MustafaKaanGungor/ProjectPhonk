@@ -65,6 +65,19 @@ public class CarController : MonoBehaviour
         Move();
         Steer();
         Brake();
+        Nitro();
+    }
+
+    public void Nitro()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            maxAcceleration *= 2.0f;
+        }
+        else if(Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            maxAcceleration /= 2.0f;
+        }
     }
 
     public void MoveInput(float input)
