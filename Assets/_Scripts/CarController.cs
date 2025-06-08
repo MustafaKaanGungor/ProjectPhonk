@@ -7,7 +7,8 @@ public class CarController : MonoBehaviour
     public enum ControlMode
     {
         Keyboard,
-        Buttons
+        Buttons,
+        AI
     };
 
     public enum Axel
@@ -57,7 +58,7 @@ public class CarController : MonoBehaviour
     {
         GetInputs();
         AnimateWheels();
-        WheelEffects();
+        //WheelEffects();
     }
 
     void LateUpdate()
@@ -66,18 +67,6 @@ public class CarController : MonoBehaviour
         Steer();
         Brake();
         Nitro();
-    }
-
-    public void Nitro()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            maxAcceleration *= 2.0f;
-        }
-        else if(Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            maxAcceleration /= 2.0f;
-        }
     }
 
     public void MoveInput(float input)
@@ -92,10 +81,16 @@ public class CarController : MonoBehaviour
 
     void GetInputs()
     {
-        if(control == ControlMode.Keyboard)
+        switch (control)
         {
-            moveInput = Input.GetAxis("Vertical");
-            steerInput = Input.GetAxis("Horizontal");
+            case ControlMode.Keyboard:
+                moveInput = Input.GetAxis("Vertical");
+                steerInput = Input.GetAxis("Horizontal");
+                break;
+            case ControlMode.Buttons:
+                break;
+            case ControlMode.AI:
+                break;
         }
     }
 
@@ -143,15 +138,24 @@ public class CarController : MonoBehaviour
         }
     }
 
+    public void Nitro()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            maxAcceleration *= 2.0f;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            maxAcceleration /= 2.0f;
+        }
+    }
+
     void AnimateWheels()
     {
         foreach(var wheel in wheels)
         {
-            Quaternion rot;
-            Vector3 pos;
-            wheel.wheelCollider.GetWorldPose(out pos, out rot);
-            wheel.wheelModel.transform.position = pos;
-            wheel.wheelModel.transform.rotation = rot;
+            wheel.wheelCollider.GetWorldPose(out Vector3 pos, out Quaternion rot);
+            wheel.wheelModel.transform.SetPositionAndRotation(pos, rot);
         }
     }
 
