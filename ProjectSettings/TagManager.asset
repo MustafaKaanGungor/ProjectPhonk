@@ -34,8 +34,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Player
+  - Wall
   - Road
   m_SortingLayers:
   - name: Default
