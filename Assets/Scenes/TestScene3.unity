@@ -18059,7 +18059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1312569117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18111,12 +18111,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 825589a2e0388ce418e4bb1908ec428f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anotherAILayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   color: {r: 0.4026971, g: 1, b: 0, a: 1}
   target: {fileID: 1132291574}
   pathUpdateInterval: 0.5
   reachThreshold: 1
   stationaryDuration: 0.1
   backwardDuration: 0.5
+  avoidDuration: 1.5
+  avoidRadius: 2
 --- !u!54 &1312569119
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -31893,6 +31898,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7172391182775045594}
   - component: {fileID: 874334013339802995}
+  - component: {fileID: 7503078428425665427}
   m_Layer: 0
   m_Name: Free Racing Car
   m_TagString: Untagged
@@ -31900,6 +31906,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7503078428425665427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7503078428425665426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a455226c326bce45b8412c3128f670b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  accelerationMultiplier: 30
+  frontLeftWheelCollider: {fileID: 7099476926865991178}
+  frontRightWheelCollider: {fileID: 7497231276970968735}
+  rearLeftWheelCollider: {fileID: 7973578462091325799}
+  rearRightWheelCollider: {fileID: 8408821574965936913}
+  maxSpeed: 90
+  maxReverseSpeed: 45
+  brakeForce: 5
+  steeringSpeed: 15
+  maxSteeringAngle: 30
 --- !u!1 &7503078428925263618
 GameObject:
   m_ObjectHideFlags: 0
@@ -31918,7 +31946,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &7503078428925263619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31931,12 +31959,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 825589a2e0388ce418e4bb1908ec428f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anotherAILayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   color: {r: 1, g: 0, b: 0, a: 1}
   target: {fileID: 1132291574}
   pathUpdateInterval: 0.5
   reachThreshold: 1
   stationaryDuration: 0.1
   backwardDuration: 0.5
+  avoidDuration: 1.5
+  avoidRadius: 2
 --- !u!33 &7598875039648364165
 MeshFilter:
   m_ObjectHideFlags: 0
