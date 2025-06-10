@@ -43,6 +43,8 @@ public class CarController : MonoBehaviour
     float steerInput;
 
     private Rigidbody carRb;
+    private Health health;
+
 
     //private CarLights carLights;
 
@@ -50,6 +52,8 @@ public class CarController : MonoBehaviour
     {
         carRb = GetComponent<Rigidbody>();
         carRb.centerOfMass = _centerOfMass;
+
+        health = GetComponent<Health>();
 
         //carLights = GetComponent<CarLights>();
     }
@@ -96,7 +100,7 @@ public class CarController : MonoBehaviour
 
     void Move()
     {
-        foreach(var wheel in wheels)
+        foreach (var wheel in wheels)
         {
             wheel.wheelCollider.motorTorque = moveInput * 600 * maxAcceleration * Time.deltaTime;
         }
@@ -104,7 +108,7 @@ public class CarController : MonoBehaviour
 
     void Steer()
     {
-        foreach(var wheel in wheels)
+        foreach (var wheel in wheels)
         {
             if (wheel.axel == Axel.Front)
             {
@@ -152,7 +156,7 @@ public class CarController : MonoBehaviour
 
     void AnimateWheels()
     {
-        foreach(var wheel in wheels)
+        foreach (var wheel in wheels)
         {
             wheel.wheelCollider.GetWorldPose(out Vector3 pos, out Quaternion rot);
             wheel.wheelModel.transform.SetPositionAndRotation(pos, rot);
@@ -174,6 +178,14 @@ public class CarController : MonoBehaviour
             {
                 wheel.wheelEffectObj.GetComponentInChildren<TrailRenderer>().emitting = false;
             }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Health health))
+        {
+            health.TakeDamage(10f);
         }
     }
 }
