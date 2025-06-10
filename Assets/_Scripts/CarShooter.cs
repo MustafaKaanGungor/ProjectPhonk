@@ -50,7 +50,7 @@ public class CarShooter : MonoBehaviour
             fireTimer = 0f;
         }
 
-        Debug.DrawRay(transform.position, (target.position - transform.position).normalized * fireRange, Color.red);
+        //Debug.DrawRay(transform.position, (target.position - transform.position).normalized * fireRange, Color.red);
     }
 
     private void OnDrawGizmosSelected()

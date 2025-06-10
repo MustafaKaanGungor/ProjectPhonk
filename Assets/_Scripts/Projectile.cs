@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
     private Rigidbody rb;
     private TrailRenderer tr;
 
+    public float damage = 10f;
     public float speed = 10f;
     public float maxLifetime = 5f;
 
@@ -54,8 +55,9 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && other.TryGetComponent(out Health health))
         {
+            health.TakeDamage(damage);
             onLifeTimeEnd?.Invoke();
         }
     }
