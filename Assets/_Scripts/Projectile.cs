@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    public string targetTag = "Player";
     private Rigidbody rb;
     private TrailRenderer tr;
 
@@ -55,7 +56,7 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && other.TryGetComponent(out Health health))
+        if (other.CompareTag(targetTag) && other.TryGetComponent(out Health health))
         {
             health.TakeDamage(damage);
             onLifeTimeEnd?.Invoke();
