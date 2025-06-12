@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Pointer
+  - Agent
   layers:
   - Default
   - TransparentFX
@@ -33,7 +35,7 @@ TagManager:
   - 
   - 
   - Pointer
-  - Enemy
+  - CarAgent
   - Player
   - Wall
   - Road

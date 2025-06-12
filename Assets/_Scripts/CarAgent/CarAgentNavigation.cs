@@ -1,35 +1,31 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Linq;
 
 [RequireComponent(typeof(CarController))]
-public class CarNavAI : MonoBehaviour
+public class CarAgentNavigation : MonoBehaviour
 {
-    public LayerMask anotherAILayerMask;
+    public LayerMask agentLayerMask;
     public Color color;
-
-    enum CarNavAIState
-    {
-        FollowPath,
-        Stationary,
-        Backward,
-        Avoid,
-    }
-
-    private CarNavAIState carNavAIState;
 
     public Transform target;
     public float pathUpdateInterval = 0.5f;
     public float reachThreshold = 1.0f;
 
     [Header("Recovery Settings")]
-    private float stuckDetectionTime = 0.5f;
     public float stationaryDuration = 0.1f;
-    private float currentStationaryTime = 0f;
     public float backwardDuration = 2.0f;
-    private float currentBackwardTime = 0f;
-    public float avoidDuration = 1.5f;
-    private float currentAvoidTime = 0f;
+    public float avoidDuration = 1.0f;
+    public float avoidRadius = 1.0f;
+
+    private enum CarAgentNavigationState
+    {
+        FollowPath,
+        Stationary, 
+        Backward, 
+        Avoid
+    }
+    private CarAgentNavigationState carAgentNavigationState = CarAgentNavigationState.FollowPath;
 
     private NavMeshPath path;
     private float pathTimer;
@@ -39,22 +35,26 @@ public class CarNavAI : MonoBehaviour
     private Rigidbody carRigidbody;
 
     private float stuckTime = 0f;
-    public float avoidRadius = 2.0f;
-
+    private float currentStationaryTime = 0f;
+    private float currentBackwardTime = 0f;
+    private float currentAvoidTime = 0f;
     private Vector3 avoidanceDirection;
 
-    void Start()
+    private const float stuckDetectionTime = 0.5f;
+    private const float minVelocityThreshold = 0.1f;
+
+    private void Start()
     {
         path = new NavMeshPath();
         carController = GetComponent<CarController>();
         carRigidbody = GetComponent<Rigidbody>();
-        carNavAIState = CarNavAIState.FollowPath;
+
         RecalculatePath();
     }
 
-    void Update()
+    private void Update()
     {
-        if (carNavAIState == CarNavAIState.FollowPath)
+        if (carAgentNavigationState == CarAgentNavigationState.FollowPath)
         {
             pathTimer += Time.deltaTime;
             if (pathTimer >= pathUpdateInterval)
@@ -64,41 +64,45 @@ public class CarNavAI : MonoBehaviour
             }
         }
 
-        if (path.status != NavMeshPathStatus.PathInvalid && path.corners.Length > 1)
+        if (path.status == NavMeshPathStatus.PathInvalid || path.corners.Length <= 1)
+            return;
+
+        switch (carAgentNavigationState)
         {
-            switch (carNavAIState)
-            {
-                case CarNavAIState.FollowPath:
-                    FollowPath();
-                    break;
-                case CarNavAIState.Stationary:
-                    Stationary();
-                    break;
-                case CarNavAIState.Backward:
-                    Backward();
-                    break;
-                case CarNavAIState.Avoid:
-                    AvoidAnotherAI();
-                    break;
-            }
+            case CarAgentNavigationState.FollowPath:
+                FollowPath();
+                break;
+            case CarAgentNavigationState.Stationary:
+                Stationary();
+                break;
+            case CarAgentNavigationState.Backward:
+                Backward();
+                break;
+            case CarAgentNavigationState.Avoid:
+                AvoidAnotherAgent();
+                break;
         }
 
-        for (int i = 0; i < path.corners.Length - 1; i++)
-            Debug.DrawLine(path.corners[i], path.corners[i + 1], color);
+        //for (int i = 0; i < path.corners.Length - 1; i++)
+        //{
+        //    Debug.DrawLine(path.corners[i], path.corners[i + 1], color);
+        //}
     }
 
     private void RecalculatePath()
     {
-        if (target != null && NavMesh.CalculatePath(transform.position, target.position, NavMesh.AllAreas, path))
+        if (target != null)
         {
-            currentCornerIndex = 1;
+            if (NavMesh.CalculatePath(transform.position, target.position, NavMesh.AllAreas, path))
+            {
+                currentCornerIndex = 1;
+            }
         }
     }
 
     private void FollowPath()
     {
         if (CheckForAvoidance()) return;
-        
         CheckForStuck();
 
         if (currentCornerIndex >= path.corners.Length)
@@ -108,7 +112,7 @@ public class CarNavAI : MonoBehaviour
             return;
         }
 
-        carController.MoveInput(1.0f);
+        carController.MoveInput(1f);
         carController.SteerInput(CalculateSteer());
     }
 
@@ -117,9 +121,10 @@ public class CarNavAI : MonoBehaviour
         currentStationaryTime += Time.deltaTime;
         carController.MoveInput(0f);
         carController.SteerInput(0f);
+
         if (currentStationaryTime >= stationaryDuration)
         {
-            carNavAIState = CarNavAIState.Backward;
+            carAgentNavigationState = CarAgentNavigationState.Backward;
             currentStationaryTime = 0f;
         }
     }
@@ -129,19 +134,18 @@ public class CarNavAI : MonoBehaviour
         currentBackwardTime += Time.deltaTime;
 
         float steerSign = Mathf.Sign(CalculateSteer());
-
         carController.MoveInput(-1f);
         carController.SteerInput(-steerSign);
 
         if (currentBackwardTime >= backwardDuration)
         {
-            carNavAIState = CarNavAIState.FollowPath;
+            carAgentNavigationState = CarAgentNavigationState.FollowPath;
             currentBackwardTime = 0f;
             RecalculatePath();
         }
     }
 
-    private void AvoidAnotherAI()
+    private void AvoidAnotherAgent()
     {
         currentAvoidTime += Time.deltaTime;
 
@@ -153,7 +157,7 @@ public class CarNavAI : MonoBehaviour
 
         if (currentAvoidTime >= avoidDuration)
         {
-            carNavAIState = CarNavAIState.FollowPath;
+            carAgentNavigationState = CarAgentNavigationState.FollowPath;
             currentAvoidTime = 0f;
         }
 
@@ -162,29 +166,30 @@ public class CarNavAI : MonoBehaviour
 
     private float CalculateSteer()
     {
-        if (currentCornerIndex >= path.corners.Length) return 0f;
+        if (currentCornerIndex >= path.corners.Length)
+            return 0f;
 
         Vector3 corner = path.corners[currentCornerIndex];
-        Vector3 dir = corner - transform.position;
-        float distance = dir.magnitude;
+        Vector3 direction = corner - transform.position;
+        float distance = direction.magnitude;
 
         if (distance < reachThreshold && currentCornerIndex < path.corners.Length - 1)
         {
             currentCornerIndex++;
         }
 
-        Vector3 localDir = transform.InverseTransformDirection(dir.normalized);
+        Vector3 localDir = transform.InverseTransformDirection(direction.normalized);
         return Mathf.Clamp(localDir.x, -1f, 1f);
     }
 
     private void CheckForStuck()
     {
-        if (carRigidbody.linearVelocity.magnitude < 0.1f)
+        if (carRigidbody.linearVelocity.magnitude < minVelocityThreshold)
         {
             stuckTime += Time.deltaTime;
             if (stuckTime >= stuckDetectionTime)
             {
-                carNavAIState = CarNavAIState.Stationary;
+                carAgentNavigationState = CarAgentNavigationState.Stationary;
                 stuckTime = 0f;
             }
         }
@@ -196,23 +201,17 @@ public class CarNavAI : MonoBehaviour
 
     private bool CheckForAvoidance()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, avoidRadius, anotherAILayerMask);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, avoidRadius, agentLayerMask);
 
-        if (colliders.Length <= 1)
-        {
-            return false;
-        }
-
-        Collider closestCollider = colliders
-            .Where(c => c.gameObject != this.gameObject)
-            .OrderBy(c => (transform.position - c.transform.position).sqrMagnitude)
+        Collider closest = colliders
+            .Where(c => c.gameObject != gameObject)
+            .OrderBy(c => (c.transform.position - transform.position).sqrMagnitude)
             .FirstOrDefault();
 
-        if (closestCollider != null)
+        if (closest != null)
         {
-            avoidanceDirection = (transform.position - closestCollider.transform.position).normalized;
-
-            carNavAIState = CarNavAIState.Avoid;
+            avoidanceDirection = (transform.position - closest.transform.position).normalized;
+            carAgentNavigationState = CarAgentNavigationState.Avoid;
             currentAvoidTime = 0f;
             return true;
         }
@@ -225,7 +224,7 @@ public class CarNavAI : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, avoidRadius);
 
-        if (carNavAIState == CarNavAIState.Avoid)
+        if (carAgentNavigationState == CarAgentNavigationState.Avoid)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, transform.position + avoidanceDirection * 3f);

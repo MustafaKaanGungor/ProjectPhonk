@@ -1,13 +1,27 @@
 using UnityEngine;
 
-public class Aiming:MonoBehaviour
+public class Aiming : MonoBehaviour
 {
-    [SerializeField] private LayerMask groundMask;
-    public GameObject pointer;
+    public static Aiming Instance { get; private set; }
 
     private Camera mainCamera;
 
-    public Vector3 PointerPosition => pointer.transform.position;
+    [SerializeField]
+    private LayerMask groundMask;
+    
+    [SerializeField] 
+    private Transform pointer;
+    public Vector3 PointerPosition => pointer.position;
+
+    private Vector3 lastMousePosition = new Vector3(-1f, -1f, -1f);
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -16,31 +30,19 @@ public class Aiming:MonoBehaviour
 
     private void Update()
     {
+        if (Input.mousePosition == lastMousePosition) return;
+        lastMousePosition = Input.mousePosition;
+
         Aim();
     }
 
-    public void Aim()
+    private void Aim()
     {
-        var (success, position) = GetMousePosition();
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
-        if (success)
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, groundMask))
         {
-            pointer.transform.position = position;
-            Debug.DrawLine(transform.position, position, Color.red);
-        }
-    }
-
-    private (bool success, Vector3 position) GetMousePosition()
-    {
-        var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, groundMask))
-        {
-            return (success: true, position: hitInfo.point);
-        }
-        else
-        {
-            return (success: false, position: Vector3.zero);
+            pointer.position = hitInfo.point;
         }
     }
 }

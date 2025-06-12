@@ -8,7 +8,7 @@ public class CarController : MonoBehaviour
     {
         Keyboard,
         Buttons,
-        AI
+        Agent
     };
 
     public enum Axel
@@ -93,7 +93,7 @@ public class CarController : MonoBehaviour
                 break;
             case ControlMode.Buttons:
                 break;
-            case ControlMode.AI:
+            case ControlMode.Agent:
                 break;
         }
     }
