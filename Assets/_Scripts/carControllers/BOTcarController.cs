@@ -16,8 +16,10 @@ public class BOTcarController : MonoBehaviour
     private float localVelocityZ;
     private Rigidbody carRb;
     private bool isDrifting;
+    private bool isAccelerating;
     private float throttleAxis;
     private float steeringAxis;
+    private float currentSteerAngle = 0;
     [SerializeField] private float steeringSpeed = 5f;
     [SerializeField] private float maxSteeringAngle = 30f;
 
@@ -32,17 +34,22 @@ public class BOTcarController : MonoBehaviour
 
     void Update()
     {
+        float forwardSpeed = Vector3.Dot(transform.forward, carRb.linearVelocity);
+        
         carSpeed = 2 * Mathf.PI * frontLeftWheelCollider.radius * frontLeftWheelCollider.rpm * 60 / 1000;
-        Debug.Log(carSpeed);
+        //Debug.Log(carSpeed);
         localVelocityX = transform.InverseTransformDirection(carRb.linearVelocity).x;
 
         if (Input.GetKey(KeyCode.W))
         {
             GoForward();
+            isAccelerating = Mathf.Sign(+1) == Mathf.Sign(forwardSpeed);
         }
         if (Input.GetKey(KeyCode.S))
         {
             GoReverse();
+            isAccelerating = Mathf.Sign(-1) == Mathf.Sign(forwardSpeed);
+
         }
         if (Input.GetKey(KeyCode.A))
         {
@@ -95,6 +102,7 @@ public class BOTcarController : MonoBehaviour
         //Araç geriye gidiyorsa önce fren bas, sonra gazla
         if (localVelocityZ < -1)
         {
+            Debug.Log("frenliyor, ileri");
             Handbrake();
         }
         else
@@ -139,6 +147,7 @@ public class BOTcarController : MonoBehaviour
         //Araç ileri gidiyorsa önce fren bas, sonra gazla
         if (localVelocityZ > 1f)
         {
+            Debug.Log("frenliyor, geri");
             Handbrake();
         }
         else
@@ -191,8 +200,18 @@ public class BOTcarController : MonoBehaviour
             steeringAxis = 1f;
         }
 
+
+        //float adjustedspeedFactor = Mathf.InverseLerp(20, maxForwardSpeed, currentSpeed); //minimum speed affecting steerAngle is 20
+        //float adjustedTurnAngle = targetSteerAngle * (1 - adjustedspeedFactor); //based on current speed.
+        //currentSteerAngle = Mathf.Lerp(currentSteerAngle, adjustedTurnAngle, Time.deltaTime * steeringSpeed);
+
         //Direksiyon açısını tekerlere uygula
+
         var steeringAngle = steeringAxis * maxSteeringAngle;
+        //float adjustedSpeedFactor = Mathf.InverseLerp();
+        //float adjustedTurnAngle = steeringAngle * (1 - adjustedSpeedFactor);
+        //currentSteerAngle = Mathf.Lerp(currentSteerAngle, adjustedTurnAngle, Time.deltaTime * steeringSpeed);
+
         frontLeftWheelCollider.steerAngle = Mathf.Lerp(frontLeftWheelCollider.steerAngle, steeringAngle, steeringSpeed);
         frontRightWheelCollider.steerAngle = Mathf.Lerp(frontRightWheelCollider.steerAngle, steeringAngle, steeringSpeed);
     }

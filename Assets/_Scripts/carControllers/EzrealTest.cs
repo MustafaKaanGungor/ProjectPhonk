@@ -81,7 +81,6 @@ namespace Ezereal
         void OnAccelerate(InputValue accelerationValue)
         {
             currentAccelerationValue = accelerationValue.Get<float>();
-            //Debug.Log("Acceleration: " + currentAccelerationValue.ToString());
         }
 
         void Acceleration()
@@ -126,18 +125,7 @@ namespace Ezereal
                             rearLeftWheelCollider.motorTorque = -currentAccelerationValue * horsePower;
                             rearRightWheelCollider.motorTorque = -currentAccelerationValue * horsePower;
                         }
-                        else if (driveType == DriveTypes.FWD)
-                        {
-                            frontLeftWheelCollider.motorTorque = -currentAccelerationValue * horsePower;
-                            frontRightWheelCollider.motorTorque = -currentAccelerationValue * horsePower;
-                        }
-                        else if (driveType == DriveTypes.AWD)
-                        {
-                            frontLeftWheelCollider.motorTorque = -currentAccelerationValue * horsePower;
-                            frontRightWheelCollider.motorTorque = -currentAccelerationValue * horsePower;
-                            rearLeftWheelCollider.motorTorque = -currentAccelerationValue * horsePower;
-                            rearRightWheelCollider.motorTorque = -currentAccelerationValue * horsePower;
-                        }
+                        
 
                     }
                     else
@@ -156,7 +144,6 @@ namespace Ezereal
         void OnBrake(InputValue brakeValue)
         {
             currentBrakeValue = brakeValue.Get<float>();
-            //Debug.Log("Brake:" + currentBrakeValue.ToString());
         }
 
         void Braking()
