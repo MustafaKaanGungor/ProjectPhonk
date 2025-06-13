@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 1574196412360133271}
   - component: {fileID: 4130528026752271489}
   - component: {fileID: 1656545980695212081}
-  - component: {fileID: 490789692051985084}
+  - component: {fileID: 1412870469510227164}
   m_Layer: 0
-  m_Name: Basic Fire
+  m_Name: Basic Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2254341041720339639
 Transform:
   m_ObjectHideFlags: 0
@@ -161,7 +161,7 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 1, g: 0, b: 0, a: 0.6666667}
+      key1: {r: 1, g: 1, b: 0, a: 0.33333334}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -200,7 +200,7 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!114 &490789692051985084
+--- !u!114 &1412870469510227164
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -212,6 +212,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a6447040b2fbe46b118ff08b1eefb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
-  speed: 15
-  maxLifetime: 2
+  targetTag: Player
+  rb: {fileID: 1574196412360133271}
+  tr: {fileID: 1656545980695212081}
+  damage: 20
+  speed: 5
+  maxLifetime: 3
