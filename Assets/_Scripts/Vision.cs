@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class Vision : Shooter
 {
@@ -8,12 +7,12 @@ public class Vision : Shooter
     private string pointerTag;
 
     private bool isShooting = false;
-  
+
     private void Update()
     {
         Shoot(() =>
         {
-            if (isShooting && Input.GetMouseButtonDown(0))
+            if (isShooting && Input.GetMouseButton(0))
             {
                 Vector3 direction = (Aiming.Instance.PointerPosition - transform.position).normalized;
                 Projectile projectile = projectilePool.GetProjectile();

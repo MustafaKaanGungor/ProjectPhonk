@@ -4,8 +4,6 @@ public class Aiming : MonoBehaviour
 {
     public static Aiming Instance { get; private set; }
 
-    private Camera mainCamera;
-
     [SerializeField]
     private LayerMask groundMask;
     
@@ -13,7 +11,9 @@ public class Aiming : MonoBehaviour
     private Transform pointer;
     public Vector3 PointerPosition => pointer.position;
 
-    private Vector3 lastMousePosition = new Vector3(-1f, -1f, -1f);
+    private Vector3 lastMousePosition = Vector3.zero;
+
+    private Camera mainCamera;
 
     private void Awake()
     {

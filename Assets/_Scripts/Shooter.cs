@@ -13,13 +13,13 @@ public abstract class Shooter : MonoBehaviour
 
     protected float fireTimer = 0f;
 
-    protected void Shoot(Action action)
+    protected void Shoot(Action shoot)
     {
         fireTimer += Time.deltaTime;
 
         if (fireTimer >= fireRate)
         {
-            action?.Invoke();
+            shoot?.Invoke();
         }
     }
 }

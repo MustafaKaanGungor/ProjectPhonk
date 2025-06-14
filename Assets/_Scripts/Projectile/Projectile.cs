@@ -35,9 +35,12 @@ public class Projectile : MonoBehaviour
     {
         transform.SetPositionAndRotation(position, rotation);
         tr.enabled = true;
-
         gameObject.SetActive(true);
-        rb.AddForce(transform.forward.normalized * speed, ForceMode.Impulse);
+    }
+
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = transform.forward.normalized * speed;
     }
 
     private void OnTriggerEnter(Collider other)

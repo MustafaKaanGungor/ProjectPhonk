@@ -216,5 +216,5 @@ MonoBehaviour:
   rb: {fileID: 1574196412360133271}
   tr: {fileID: 1656545980695212081}
   damage: 20
-  speed: 5
+  speed: 20
   maxLifetime: 3
