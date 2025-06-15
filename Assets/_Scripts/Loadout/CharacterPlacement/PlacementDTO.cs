@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlacementDTO : MonoBehaviour
@@ -10,7 +11,7 @@ public class PlacementDTO : MonoBehaviour
     [HideInInspector]
     public List<Source> sources = new List<Source>();
 
-    public List<string> sourceNames = new List<string>();
+    public List<Character> sourceCharacters = new List<Character>();
 
     public int maxPlacements = 4;
 
@@ -31,7 +32,7 @@ public class PlacementDTO : MonoBehaviour
     {
         foreach (var destination in destinations)
         {
-            sourceNames.Add(destination.Source.Name);
+            sourceCharacters.Add(destination.Source.character);
         }
     }
 }

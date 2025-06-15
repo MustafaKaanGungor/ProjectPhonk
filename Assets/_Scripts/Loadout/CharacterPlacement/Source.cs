@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class Source : MonoBehaviour
 {
+    public Character character;
+
     [SerializeField]
     private Image image;
 

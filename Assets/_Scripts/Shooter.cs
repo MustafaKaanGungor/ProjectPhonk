@@ -6,6 +6,11 @@ public abstract class Shooter : MonoBehaviour
     [SerializeField]
     protected ProjectileObjectPooling projectilePool;
 
+    public ProjectileObjectPooling ProjectilePool
+    {
+        set => projectilePool = value;
+    }
+
     [SerializeField]
     protected float fireRate = 2.5f;
     [SerializeField]
@@ -15,8 +20,9 @@ public abstract class Shooter : MonoBehaviour
 
     protected void Shoot(Action shoot)
     {
-        fireTimer += Time.deltaTime;
+        if (projectilePool == null) return;
 
+        fireTimer += Time.deltaTime;
         if (fireTimer >= fireRate)
         {
             shoot?.Invoke();

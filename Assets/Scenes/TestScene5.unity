@@ -964,6 +964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8db048a783ee44ab68d59ecc07282d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 0}
   image: {fileID: 1089839958}
   nameText: {fileID: 159711847}
   button: {fileID: 214558069}
@@ -1587,7 +1588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &470448388
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2057,6 +2058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8db048a783ee44ab68d59ecc07282d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 5386963157477271337, guid: bfb5bc69f3c39184d9cc5cb85e5fdc17, type: 3}
   image: {fileID: 293162541}
   nameText: {fileID: 1792432808}
   button: {fileID: 506273619}
@@ -2116,6 +2118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8db048a783ee44ab68d59ecc07282d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 0}
   image: {fileID: 1471237843}
   nameText: {fileID: 1348076488}
   button: {fileID: 528735007}
@@ -2243,7 +2246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &565884934
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2431,6 +2434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8db048a783ee44ab68d59ecc07282d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 0}
   image: {fileID: 606623297}
   nameText: {fileID: 2033338384}
   button: {fileID: 636629664}
@@ -2633,7 +2637,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &759790403
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2746,6 +2750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8db048a783ee44ab68d59ecc07282d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 5386963157477271337, guid: d64e527e84320aa40a171436a8e31f93, type: 3}
   image: {fileID: 999477712}
   nameText: {fileID: 2055420013}
   button: {fileID: 814590249}
@@ -3428,6 +3433,7 @@ MonoBehaviour:
   - {fileID: 1221867464}
   - {fileID: 1994930902}
   sources: []
+  sourceCharacters: []
   maxPlacements: 4
 --- !u!1 &1178262163
 GameObject:
@@ -3781,6 +3787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8db048a783ee44ab68d59ecc07282d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 5386963157477271337, guid: 74404b0b2949704479b80701103df33f, type: 3}
   image: {fileID: 259068857}
   nameText: {fileID: 1651766192}
   button: {fileID: 1280349537}
@@ -4082,6 +4089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8db048a783ee44ab68d59ecc07282d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 5386963157477271337, guid: e0a9fa658759a1247b3418211ed49367, type: 3}
   image: {fileID: 1948696277}
   nameText: {fileID: 1970934698}
   button: {fileID: 1410065396}
@@ -4247,6 +4255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8db048a783ee44ab68d59ecc07282d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 0}
   image: {fileID: 1621900860}
   nameText: {fileID: 106105187}
   button: {fileID: 1425968747}
@@ -4999,6 +5008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8db048a783ee44ab68d59ecc07282d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: {fileID: 0}
   image: {fileID: 1139886346}
   nameText: {fileID: 1733184135}
   button: {fileID: 1753517705}
@@ -5337,7 +5347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1833586431
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6093,7 +6103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2046177478
 RectTransform:
   m_ObjectHideFlags: 0
