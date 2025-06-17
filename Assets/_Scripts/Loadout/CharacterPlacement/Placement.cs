@@ -39,7 +39,8 @@ public class Placement : MonoBehaviour
         if (PlacementDTO.Instance.sources.Count == PlacementDTO.Instance.maxPlacements)
         {
             PlacementDTO.Instance.Copy();
-            SceneManager.LoadScene("TestScene4");
+            SceneLoader.LoadScene(Scenes.TestScene);
+            //SceneManager.LoadScene("TestScene4");
             Debug.Log("Starting game with selected placements.");
         }
         else
